@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Auto Color Grading</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <h1>📸 자동 색감 보정 도구</h1>
+
+  <form id="upload-form" enctype="multipart/form-data">
+    <div class="input-group">
+      <label for="input">원본 이미지:</label>
+      <input type="file" name="input" id="input" accept="image/*" required>
+    </div>
+    <div class="input-group">
+      <label for="target">목표 이미지:</label>
+      <input type="file" name="target" id="target" accept="image/*" required>
+    </div>
+
+    <div class="input-group">
+      <label for="strength">보정 강도:</label>
+      <input type="number" name="strength" id="strength" min="-2" max="2" step="0.01" value="0.5">
+    </div>
+
+    <button type="submit">보정 시작</button>
+  </form>
+
+  <div id="result-section">
+    <h2>보정 결과</h2>
+    <div style="display: flex; gap: 20px; justify-content: center;">
+      <div style="display: flex; flex-direction: column; align-items: center;">
+        <img id="original-image" src="#" alt="원본 이미지가 여기에 표시됩니다." style="max-width: 100%; height: auto;">
+        <p>원본 이미지</p>
+      </div>
+      <div style="display: flex; flex-direction: column; align-items: center;">
+        <img id="target-image" src="#" alt="목표 이미지가 여기에 표시됩니다." style="max-width: 100%; height: auto;">
+        <p>목표 이미지</p>
+      </div>
+      <div style="display: flex; flex-direction: column; align-items: center;">
+        <img id="result-image" src="#" alt="결과 이미지가 여기에 표시됩니다." style="max-width: 100%; height: auto;">
+        <p>보정 이미지</p>
+        <button id="download-button" style="display: none; margin-top: 10px;">결과 이미지 다운로드</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Google AdSense Placeholder -->
+  <div style="margin-top: 40px; text-align: center;">
+    <p>Google AdSense 광고가 여기에 표시됩니다.</p>
+    <div style="width: 728px; height: 90px; background-color: #f0f0f0; border: 1px solid #ccc; margin: 0 auto; display: flex; align-items: center; justify-content: center;">
+      광고 배너 (728x90)
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
