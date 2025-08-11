@@ -22,8 +22,10 @@ def apply_adjustments(image, brightness=0, contrast=1.0, hue_shift=0, saturation
     adjusted = cv2.cvtColor(hsv, cv2.COLOR_HSV2BGR)
 
     # 감마 보정
+    if gamma == 0:
+        gamma = 1e-6
     inv_gamma = 1.0 / gamma
-    table = np.array([(i / 255.0) ** inv_gamma * 255 for i in range(256)]).astype("uint8")
+    table = np.array([((i / 255.0) ** inv_gamma) * 255 if i > 0 else 0 for i in range(256)]).astype("uint8")
     adjusted = cv2.LUT(adjusted, table)
 
     return adjusted
