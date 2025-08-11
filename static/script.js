@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function () {
       targetImage.src = URL.createObjectURL(targetFileInput.files[0]);
     }
 
-    fetch("/api/process", {
+    fetch("https://autocolorgrading.onrender.com/api/process", {
       method: "POST",
       body: formData
     })

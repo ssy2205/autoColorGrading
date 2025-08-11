@@ -13,3 +13,4 @@ ultralytics-thop
 thop
 color-matcher
 Pillow
+scikit-learn
