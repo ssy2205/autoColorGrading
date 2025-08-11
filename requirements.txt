@@ -1,6 +1,7 @@
 Flask
 Flask-Cors
-opencv-python
+werkzeug
+opencv-python-headless
 gunicorn
 numpy
 scipy
