@@ -2,7 +2,22 @@ from vectorLearn import *
 import torch
 import joblib
 
-def infer_parameters(input_path, target_path):
+def load_models():
+    """
+    Load all the models required for inference.
+    """
+    scaler = joblib.load("scaler.pkl")
+    pca = joblib.load("pca.pkl")
+
+    INPUT_DIM = 32  # same as PCA n_components
+    OUTPUT_DIM = 6  # number of predicted parameters
+    model = AdjustmentRegressor(INPUT_DIM, OUTPUT_DIM)
+    model.load_state_dict(torch.load("adjustment_regressor.pth"))
+    model.eval()
+
+    return scaler, pca, model
+
+def infer_parameters(input_path, target_path, scaler, pca, model):
     # 이미지 로드 및 벡터 추출
     current_img = cv2.imread(input_path)
     target_img = cv2.imread(target_path)
@@ -10,20 +25,9 @@ def infer_parameters(input_path, target_path):
     target_vec = extract_image_vector(target_img)
     combined_vec = np.concatenate([current_vec, target_vec])
 
-    # 전처리기 불러오기
-    scaler = joblib.load("scaler.pkl")
-    pca = joblib.load("pca.pkl")
-
     # 벡터 전처리
     vec_scaled = scaler.transform([combined_vec])
     vec_pca = pca.transform(vec_scaled)
-
-    INPUT_DIM = 32  # same as PCA n_components
-    OUTPUT_DIM = 6  # number of predicted parameters
-
-    model = AdjustmentRegressor(INPUT_DIM, OUTPUT_DIM)
-    model.load_state_dict(torch.load("adjustment_regressor.pth"))
-    model.eval()
 
     with torch.no_grad():
         input_tensor = torch.tensor(vec_pca, dtype=torch.float32)

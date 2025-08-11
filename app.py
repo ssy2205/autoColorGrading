@@ -2,7 +2,7 @@ from flask import Flask, request, send_file, render_template
 from flask_cors import CORS
 import os
 import cv2
-from vectorInfer import infer_parameters, apply_correction_with_strength
+from vectorInfer import infer_parameters, apply_correction_with_strength, load_models
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__, template_folder='.')
@@ -10,6 +10,9 @@ CORS(app)  # CORS 적용
 
 UPLOAD_FOLDER = "uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+# Load models at startup
+scaler, pca, model = load_models()
 
 @app.route("/api/process", methods=["POST"])
 def process():
@@ -30,7 +33,7 @@ def process():
 
     try:
         # 이미지 보정
-        predicted_params = infer_parameters(input_path, target_path)
+        predicted_params = infer_parameters(input_path, target_path, scaler, pca, model)
         corrected_img = apply_correction_with_strength(input_path, predicted_params, strength)
 
         # 결과 이미지 저장
