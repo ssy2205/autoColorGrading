@@ -26,7 +26,7 @@ def process():
 
     input_img = request.files["input"]
     target_img = request.files["target"]
-    strength = float(request.form.get("strength", 0.5))
+    strength = float(request.form.get("strength", 1))
 
     # 파일 이름 보안 처리 및 저장
     input_filename = secure_filename(input_img.filename)
