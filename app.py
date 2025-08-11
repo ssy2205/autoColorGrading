@@ -5,7 +5,7 @@ import cv2
 from vectorInfer import infer_parameters, apply_correction_with_strength
 from werkzeug.utils import secure_filename
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='.')
 CORS(app)  # CORS 적용
 
 UPLOAD_FOLDER = "uploads"
