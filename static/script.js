@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const targetImage = document.getElementById("target-image");
   const resultImage = document.getElementById("result-image");
   const downloadButton = document.getElementById("download-button");
+  const loadingMessage = document.getElementById("loading-message");
 
   form.addEventListener("submit", function (e) {
     e.preventDefault();
@@ -20,6 +21,9 @@ document.addEventListener("DOMContentLoaded", function () {
     if (targetFileInput && targetFileInput.files.length > 0) {
       targetImage.src = URL.createObjectURL(targetFileInput.files[0]);
     }
+
+    // Show loading message
+    loadingMessage.style.display = "block";
 
     fetch("https://autocolorgrading.onrender.com/api/process", {
       method: "POST",
@@ -45,9 +49,14 @@ document.addEventListener("DOMContentLoaded", function () {
         a.click();
         document.body.removeChild(a);
       };
+      alert("이미지 처리가 완료되었습니다.");
     })
     .catch((error) => {
       alert("에러가 발생했습니다: " + error.message);
+    })
+    .finally(() => {
+      // Hide loading message
+      loadingMessage.style.display = "none";
     });
   });
 });
