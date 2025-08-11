@@ -11,8 +11,13 @@ CORS(app)  # CORS 적용
 UPLOAD_FOLDER = "uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
+import os
+
+# Get the absolute path of the directory where this file is located
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 # Load models at startup
-scaler, pca, model = load_models()
+scaler, pca, model = load_models(BASE_DIR)
 
 @app.route("/api/process", methods=["POST"])
 def process():

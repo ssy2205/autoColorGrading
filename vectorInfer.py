@@ -1,18 +1,23 @@
 from vectorLearn import *
 import torch
 import joblib
+import os
 
-def load_models():
+def load_models(base_dir):
     """
     Load all the models required for inference.
     """
-    scaler = joblib.load("scaler.pkl")
-    pca = joblib.load("pca.pkl")
+    scaler_path = os.path.join(base_dir, "scaler.pkl")
+    pca_path = os.path.join(base_dir, "pca.pkl")
+    model_path = os.path.join(base_dir, "adjustment_regressor.pth")
+
+    scaler = joblib.load(scaler_path)
+    pca = joblib.load(pca_path)
 
     INPUT_DIM = 32  # same as PCA n_components
     OUTPUT_DIM = 6  # number of predicted parameters
     model = AdjustmentRegressor(INPUT_DIM, OUTPUT_DIM)
-    model.load_state_dict(torch.load("adjustment_regressor.pth"))
+    model.load_state_dict(torch.load(model_path))
     model.eval()
 
     return scaler, pca, model
